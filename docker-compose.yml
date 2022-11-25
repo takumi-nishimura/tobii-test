@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  ubuntu-gui:
+    build: ./
+    container_name: "tobii-test"
+    tty: true
+    ports:
+      - 8080:80
