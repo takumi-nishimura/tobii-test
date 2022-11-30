@@ -3,7 +3,7 @@ import sys
 import threading
 from decimal import Decimal, ROUND_HALF_UP
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtWidgets
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "./libs/")))
 from libs import loggle
@@ -92,17 +92,17 @@ class CentralWidget(QtWidgets.QWidget):
             global_gaze_data[0] * screen_geo.width(),
             global_gaze_data[1] * screen_geo.height(),
         )
+        gaze_pos_app = (gaze_pos[0] - win.pos().x(), gaze_pos[1] - win.pos().y())
 
-        print(win.pos(), gaze_pos)
-
-        # self.gaze_data_label.setText(
-        #     "gaze data: (%s, %s)" % (gaze_qpoint_local.x(), gaze_qpoint_local.y())
-        # )
-
-        #     self.pointer_label.move(
-        #         self.width() * global_gaze_data[0] - self.pointer_label.width() / 2,
-        #         self.height() * global_gaze_data[1] - self.pointer_label.height() / 2,
-        #     )
+        self.pointer_label.move(gaze_pos_app[0], gaze_pos_app[1])
+        self.gaze_data_label.setText(
+            "gaze data: (%s, %s)"
+            % (
+                round(gaze_pos_app[0], 3),
+                round(gaze_pos_app[1], 3),
+            )
+        )
+        logger.info("gaze data: gaze_x:%s,gaze_y:%s" % (gaze_pos_app))
 
 
 if __name__ == "__main__":
